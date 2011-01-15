@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Shortcodes", "Our.Umbraco.Shortcodes\Our.Umbraco.Shortcodes.csproj", "{4DF5E392-C36D-4704-AC1E-27E434C0BCEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DF5E392-C36D-4704-AC1E-27E434C0BCEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DF5E392-C36D-4704-AC1E-27E434C0BCEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DF5E392-C36D-4704-AC1E-27E434C0BCEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DF5E392-C36D-4704-AC1E-27E434C0BCEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
