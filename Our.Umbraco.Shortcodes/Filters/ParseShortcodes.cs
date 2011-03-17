@@ -5,15 +5,13 @@ using System.Text.RegularExpressions;
 using System.Web;
 using umbraco;
 
-namespace Our.Umbraco.Shortcodes
+namespace Our.Umbraco.Shortcodes.Filters
 {
 	class ParseShortcodes : MemoryStream
 	{
 		private Stream OutputStream = null;
 		
-		private char[] Brackets = { '{', '}' };
-		
-		private Regex Shortcode = new Regex("{\\[(@|#|%|$)(.*)\\]}", RegexOptions.Compiled);
+		private Regex Shortcode = new Regex(@"\[(\@|\#|\%|\$)(.*)\b\](?:\[\/\2\])?", RegexOptions.Compiled);
 		
 		private page Page;
 
@@ -36,12 +34,9 @@ namespace Our.Umbraco.Shortcodes
 			foreach (Match match in this.Shortcode.Matches(content))
 			{
 				string code = match.Captures[0].Value;
-				string value = helper.parseAttribute(this.Page.Elements, code.Trim(this.Brackets));
+				string value = helper.parseAttribute(this.Page.Elements, code);
 
-				if (!string.IsNullOrEmpty(value))
-				{
-					content = content.Replace(code, value);
-				}
+			    content = content.Replace(code, value);
 			}
 
 			byte[] outputBuffer = UTF8Encoding.UTF8.GetBytes(content);

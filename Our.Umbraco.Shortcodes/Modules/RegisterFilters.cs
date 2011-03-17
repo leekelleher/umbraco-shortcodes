@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Web;
 
-namespace Our.Umbraco.Shortcodes
+using Our.Umbraco.Shortcodes.Filters;
+
+namespace Our.Umbraco.Shortcodes.Modules
 {
-	public class Application: IHttpModule
+	public class RegisterFilters : IHttpModule
 	{
 		public void Dispose()
 		{
