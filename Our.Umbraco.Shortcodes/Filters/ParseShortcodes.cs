@@ -67,6 +67,14 @@ namespace Our.Umbraco.Shortcodes.Filters
 		/// <exception cref="T:System.ObjectDisposedException">The current stream instance is closed. </exception>
 		public override void Write(byte[] buffer, int offset, int count)
 		{
+			// if the Umbraco page context is null
+			if (this.Page == null)
+			{
+				// return the response output stream
+				this.OutputStream.Write(buffer, offset, count);
+				return;
+			}
+
 			// get the string from the buffer
 			string content = UTF8Encoding.UTF8.GetString(buffer);
 

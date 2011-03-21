@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 
 using Our.Umbraco.Shortcodes.Filters;
@@ -33,10 +34,55 @@ namespace Our.Umbraco.Shortcodes.Modules
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void context_PostReleaseRequestState(object sender, EventArgs e)
 		{
-			if (HttpContext.Current.Response.ContentType == "text/html")
+			if (HttpContext.Current.Response.ContentType == "text/html" && this.IsPathAllowed())
 			{
 				HttpContext.Current.Response.Filter = new ParseShortcodes(HttpContext.Current.Response.Filter);
 			}
+		}
+
+		/// <summary>
+		/// Determines whether [is path allowed].
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if [is path allowed]; otherwise, <c>false</c>.
+		/// </returns>
+		private bool IsPathAllowed()
+		{
+			string path = HttpContext.Current.Request.Path;
+
+			var disallowedPaths = new string[]
+			{
+				"/aspnet_client/",
+				"/bin/",
+				"/config/",
+				"/data/",
+				"/install/",
+				"/macroScripts/",
+				"/masterpages/",
+				"/media/",
+				"/umbraco/",
+				"/umbraco_client/",
+				"/usercontrols/",
+				"/xslt/"
+			};
+
+			bool allowed = disallowedPaths.Count(s => path.StartsWith(s)) == 0;
+
+			if (allowed)
+			{
+				var disallowedExtensions = new string[]
+				{
+					"gif",
+					"jpeg",
+					"jpg",
+					"png",
+					"woff"
+				};
+
+				allowed = disallowedExtensions.Count(s => path.EndsWith(s)) == 0;
+			}
+
+			return allowed;
 		}
 	}
 }
