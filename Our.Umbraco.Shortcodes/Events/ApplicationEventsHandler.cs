@@ -9,22 +9,34 @@ using umbraco.BusinessLogic;
 
 namespace Our.Umbraco.Shortcodes.Events
 {
+	/// <summary>
+	/// Event handler for the application start-up.
+	/// </summary>
 	public class ApplicationEventsHandler : ApplicationBase
 	{
+		/// <summary>
+		/// Field for checking if the modules are already registered.
+		/// </summary>
+		private static bool modulesRegistered;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApplicationEventsHandler"/> class.
+		/// </summary>
 		public ApplicationEventsHandler()
 		{
 		}
 
-		private static bool _modulesRegistered;
-
+		/// <summary>
+		/// Registers the modules.
+		/// </summary>
 		public static void RegisterModules()
 		{
-			if (_modulesRegistered)
+			if (modulesRegistered)
 			{
 				return;
 			}
 
-			_modulesRegistered = true;
+			modulesRegistered = true;
 
 			DynamicModuleUtility.RegisterModule(typeof(Our.Umbraco.Shortcodes.Modules.RegisterFilters));
 		}
