@@ -3,6 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Shortcodes", "Our.Umbraco.Shortcodes\Our.Umbraco.Shortcodes.csproj", "{4DF5E392-C36D-4704-AC1E-27E434C0BCEB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Assemblies", "External Assemblies", "{103FFAE6-D75D-469A-AE16-A11963C5AEF2}"
+	ProjectSection(SolutionItems) = preProject
+		_externals\businesslogic.dll = _externals\businesslogic.dll
+		_externals\ClientDependency.Core.dll = _externals\ClientDependency.Core.dll
+		_externals\cms.dll = _externals\cms.dll
+		_externals\interfaces.dll = _externals\interfaces.dll
+		_externals\umbraco.dll = _externals\umbraco.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Package", "Build Package", "{CBD4865F-EE26-4259-8D96-317FFCBEF7BE}"
+	ProjectSection(SolutionItems) = preProject
+		_build\BuildPackage.cmd = _build\BuildPackage.cmd
+		_build\BuildPackage.msbuild = _build\BuildPackage.msbuild
+		_build\package.xml = _build\package.xml
+		_build\readme.txt = _build\readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
