@@ -102,9 +102,9 @@ namespace Our.Umbraco.Shortcodes.Filters
 						value = helper.parseAttribute(this.Page.Elements, shortcode);
 						break;
 
-					// attempt to parse for triple-tag.
+					// attempt to parse for extension method
 					default:
-						value = this.ParseTripleTag(shortcode);
+						value = this.ParseExtensionMethod(shortcode);
 						break;
 				}
 
@@ -121,35 +121,35 @@ namespace Our.Umbraco.Shortcodes.Filters
 		}
 
 		/// <summary>
-		/// Parses the triple tag.
+		/// Parses the extension method.
 		/// </summary>
 		/// <param name="shortcode">The shortcode.</param>
 		/// <returns>
-		/// Returns the parsed triple tag, (with value from restExtension).
+		/// Returns the parsed extension method, (with value from restExtension).
 		/// </returns>
-		private string ParseTripleTag(string shortcode)
+		private string ParseExtensionMethod(string shortcode)
 		{
-			var tripleTag = new Regex(@"\[([\w]+)(?:\:)([\w]+)(?:\=)?(.*)?\]", RegexOptions.Compiled);
+			var extensionMethod = new Regex(@"\[([\w]+)(?:\:)([\w]+)\((.*)\b\)(?:\(\/\1\))?\]", RegexOptions.Compiled);
 
 			// test if the shortcode is a valid triple-tag.
-			if (tripleTag.IsMatch(shortcode))
+			if (extensionMethod.IsMatch(shortcode))
 			{
-				// match the triple-tag groups.
-				var match = tripleTag.Match(shortcode);
+				// match the extension method groups.
+				var match = extensionMethod.Match(shortcode);
 				if (match != null && match.Groups.Count > 3)
 				{
-					// assign the triple-tag groups.
+					// assign the extension method groups.
 					string ns = match.Groups[1].Value;
-					string predicate = match.Groups[2].Value;
+					string method = match.Groups[2].Value;
 					string values = match.Groups[3].Value;
 
 					// get the 'restExtension'.
-					var restExtension = new restExtension(ns, predicate);
+					var restExtension = new restExtension(ns, method);
 					if (restExtension.isAllowed)
 					{
 						// load up the parameters.
-						var parameters = new List<object>() { null, null, ns, predicate };
-						parameters.AddRange(values.Split('/'));
+						var parameters = new List<object>() { null, null, ns, method };
+						parameters.AddRange(values.Split(','));
 
 						// invoke the /base method.
 						var obj = new requestModule();
@@ -158,6 +158,8 @@ namespace Our.Umbraco.Shortcodes.Filters
 
 						return result.ToString();
 					}
+
+					// XsltExtension?
 				}
 			}
 
