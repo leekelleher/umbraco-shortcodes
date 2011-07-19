@@ -6,4 +6,4 @@ Example shortcodes:
 
 * Place the following shortcode anywhere in your content (RTE, Razor, XSLT or template), and [#pageName] will return the name of the content page.
 
-* To use a RestExtension, try the following syntax: [{alias}:{method}={parameters}] ... e.g. [Shortcodes:Today=yyyy-MM-dd]
+* To use a RestExtension, try the following syntax: [{alias}:{method}({parameters})] ... e.g. [Shortcodes:Today(yyyy-MM-dd)]
