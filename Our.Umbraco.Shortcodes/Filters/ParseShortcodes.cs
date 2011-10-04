@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,7 +26,7 @@ namespace Our.Umbraco.Shortcodes.Filters
 		/// <summary>
 		/// Field for the regular expression to match shortcodes
 		/// </summary>
-		private Regex ShortcodeMatch = new Regex(@"\[(.*)\b\](?:\[\/\1\])?", RegexOptions.Compiled);
+		private Regex ShortcodeMatch = new Regex(@"\[([^]\r\n]*)\]", RegexOptions.Compiled);
 
 		/// <summary>
 		/// Field for the Page object.
@@ -111,7 +112,15 @@ namespace Our.Umbraco.Shortcodes.Filters
 				// check if the value has changed.
 				if (!string.Equals(shortcode, value))
 				{
-					content = content.Replace(shortcode, value);
+					if (string.IsNullOrEmpty(value))
+					{
+						// if the value is empty, remove the leading space from the shortcode
+						content = content.Replace(string.Concat(" ", shortcode), value);
+					}
+					else
+					{
+						content = content.Replace(shortcode, value); 
+					}
 				}
 			}
 
@@ -149,7 +158,7 @@ namespace Our.Umbraco.Shortcodes.Filters
 					{
 						// load up the parameters.
 						var parameters = new List<object>() { null, null, ns, method };
-						parameters.AddRange(values.Split(','));
+						parameters.AddRange(values.Split(',').Select(s => s.Trim()));
 
 						// invoke the /base method.
 						var obj = new requestModule();

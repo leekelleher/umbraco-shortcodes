@@ -45,7 +45,7 @@
 	<!-- PREPAIRE FILES -->
 	<Target Name="PrepairFiles" DependsOnTargets="Compile">
 		<ItemGroup>
-			<BinFiles Include="$(RootDir)\bin\Release\Our.Umbraco.Shortcodes.*" />
+			<BinFiles Include="$(RootDir)\bin\Release\Our.Umbraco.Shortcodes.dll" />
 			<PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
 		</ItemGroup>
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildDir)\bin" />
