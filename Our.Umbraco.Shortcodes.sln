@@ -4,6 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Shortcodes", "Our.Umbraco.Shortcodes\Our.Umbraco.Shortcodes.csproj", "{4DF5E392-C36D-4704-AC1E-27E434C0BCEB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Assemblies", "External Assemblies", "{103FFAE6-D75D-469A-AE16-A11963C5AEF2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Package", "Build Package", "{CBD4865F-EE26-4259-8D96-317FFCBEF7BE}"
+	ProjectSection(SolutionItems) = preProject
+		_build\BuildPackage.cmd = _build\BuildPackage.cmd
+		_build\BuildPackage.msbuild = _build\BuildPackage.msbuild
+		_build\package.xml = _build\package.xml
+		_build\readme.txt = _build\readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco Assemblies", "Umbraco Assemblies", "{8DE27577-E94B-4D5D-B804-6601F2E5AE51}"
 	ProjectSection(SolutionItems) = preProject
 		_externals\businesslogic.dll = _externals\businesslogic.dll
 		_externals\ClientDependency.Core.dll = _externals\ClientDependency.Core.dll
@@ -12,12 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Assemblies", "Exte
 		_externals\umbraco.dll = _externals\umbraco.dll
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Package", "Build Package", "{CBD4865F-EE26-4259-8D96-317FFCBEF7BE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microsoft Assemblies", "Microsoft Assemblies", "{713B7F78-1B13-4149-AC11-3F4D3FBCA241}"
 	ProjectSection(SolutionItems) = preProject
-		_build\BuildPackage.cmd = _build\BuildPackage.cmd
-		_build\BuildPackage.msbuild = _build\BuildPackage.msbuild
-		_build\package.xml = _build\package.xml
-		_build\readme.txt = _build\readme.txt
+		_externals\Microsoft.Web.Infrastructure.dll = _externals\Microsoft.Web.Infrastructure.dll
 	EndProjectSection
 EndProject
 Global
@@ -33,5 +40,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8DE27577-E94B-4D5D-B804-6601F2E5AE51} = {103FFAE6-D75D-469A-AE16-A11963C5AEF2}
+		{713B7F78-1B13-4149-AC11-3F4D3FBCA241} = {103FFAE6-D75D-469A-AE16-A11963C5AEF2}
 	EndGlobalSection
 EndGlobal
