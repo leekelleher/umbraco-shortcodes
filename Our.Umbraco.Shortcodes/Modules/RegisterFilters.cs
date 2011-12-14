@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Linq;
+using System.Net.Mime;
 using System.Web;
-
 using Our.Umbraco.Shortcodes.Filters;
+using Our.Umbraco.Shortcodes.Utilities;
+using umbraco.IO;
 
 namespace Our.Umbraco.Shortcodes.Modules
 {
@@ -11,6 +12,8 @@ namespace Our.Umbraco.Shortcodes.Modules
 	/// </summary>
 	public class RegisterFilters : IHttpModule
 	{
+		public const string InstallKey = "ShortcodesModuleInstalled";
+
 		/// <summary>
 		/// Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule"/>.
 		/// </summary>
@@ -34,55 +37,73 @@ namespace Our.Umbraco.Shortcodes.Modules
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void context_PostReleaseRequestState(object sender, EventArgs e)
 		{
-			if (HttpContext.Current.Response.ContentType == "text/html" && this.IsPathAllowed())
+			if (HttpContext.Current != null)
 			{
-				HttpContext.Current.Response.Filter = new ParseShortcodes(HttpContext.Current.Response.Filter);
+				var context = HttpContext.Current;
+				if (!context.Items.Contains(InstallKey))
+				{
+					var response = context.Response;
+					var currentExecutionFilePath = context.Request.CurrentExecutionFilePath;
+
+					if ((response.ContentType == MediaTypeNames.Text.Html) && (!this.IsReservedPath(currentExecutionFilePath)))
+					{
+						int pageId;
+						var value = HttpContext.Current.Items["pageID"];
+						if (value != null && int.TryParse(value.ToString(), out pageId))
+						{
+							var parser = new Parser(response.ContentEncoding, pageId);
+							var filter = new ResponseFilterStream(response.Filter);
+							filter.TransformString += new Func<string, string>(parser.ParseShortcodes);
+							response.Filter = filter;
+						}
+					}
+
+					context.Items.Add(InstallKey, new object());
+				}
 			}
 		}
 
-		/// <summary>
-		/// Determines whether [is path allowed].
-		/// </summary>
-		/// <returns>
-		/// 	<c>true</c> if [is path allowed]; otherwise, <c>false</c>.
-		/// </returns>
-		private bool IsPathAllowed()
+		private bool IsReservedPath(string path)
 		{
-			string path = HttpContext.Current.Request.Path;
-
-			var disallowedPaths = new string[]
+			var reservedPaths = new[]
 			{
-				"/aspnet_client/",
-				"/bin/",
-				"/config/",
-				"/data/",
-				"/install/",
-				"/macroScripts/",
-				"/masterpages/",
-				"/media/",
-				"/umbraco/",
-				"/umbraco_client/",
-				"/usercontrols/",
-				"/xslt/"
+				"~/aspnet_client/",
+				SystemDirectories.Base,
+				SystemDirectories.Bin,
+				SystemDirectories.Config,
+				SystemDirectories.Css,
+				SystemDirectories.Data,
+				SystemDirectories.Install,
+				SystemDirectories.MacroScripts,
+				SystemDirectories.Masterpages,
+				SystemDirectories.Media,
+				SystemDirectories.Packages,
+				SystemDirectories.Preview,
+				SystemDirectories.Scripts,
+				SystemDirectories.Umbraco,
+				SystemDirectories.Umbraco_client,
+				SystemDirectories.Usercontrols,
+				SystemDirectories.Webservices,
+				SystemDirectories.Xslt
 			};
 
-			bool allowed = disallowedPaths.Count(s => path.StartsWith(s)) == 0;
-
-			if (allowed)
+			foreach (var reservedPath in reservedPaths)
 			{
-				var disallowedExtensions = new string[]
+				if (path.StartsWith(IOHelper.ResolveUrl(reservedPath)))
 				{
-					"gif",
-					"jpeg",
-					"jpg",
-					"png",
-					"woff"
-				};
-
-				allowed = disallowedExtensions.Count(s => path.EndsWith(s)) == 0;
+					return true;
+				}
 			}
 
-			return allowed;
+			foreach (var extension in new[] { ".gif", ".jpeg", ".jpg", ".png", ".woff" })
+			{
+				if (path.EndsWith(extension))
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
