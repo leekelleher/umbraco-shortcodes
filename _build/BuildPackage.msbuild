@@ -7,11 +7,12 @@
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
-		<PackageVersion>1.1</PackageVersion>
+		<PackageVersion>1.1.1</PackageVersion>
+		<PackageProjectName>Our.Umbraco.Shortcodes</PackageProjectName>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<RootDir>$(MSBuildProjectDirectory)\..\Our.Umbraco.Shortcodes</RootDir>
+		<RootDir>$(MSBuildProjectDirectory)\..\$(PackageProjectName)</RootDir>
 		<BuildDir>$(MSBuildProjectDirectory)\_temp</BuildDir>
 	</PropertyGroup>
 
@@ -29,23 +30,24 @@
 			Encoding="ASCII"
 			Files="$(RootDir)\Properties\AssemblyInfo.cs"
 			Regex="AssemblyVersion\(&quot;.*&quot;\)\]"
-			ReplacementText="AssemblyVersion(&quot;$(PackageVersion).0.0&quot;)]" />
+			ReplacementText="AssemblyVersion(&quot;$(PackageVersion).*&quot;)]" />
 		<FileUpdate
 			Encoding="ASCII"
 			Files="$(RootDir)\Properties\AssemblyInfo.cs"
 			Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]"
-			ReplacementText="AssemblyFileVersion(&quot;$(PackageVersion).0.0&quot;)]" />
+			ReplacementText="AssemblyFileVersion(&quot;$(PackageVersion).*&quot;)]" />
 	</Target>
 
 	<!-- COMPILE -->
 	<Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
-		<MSBuild Projects="$(RootDir)\..\Our.Umbraco.Shortcodes.sln" Properties="Configuration=Release" />
+		<MSBuild Projects="$(RootDir)\..\$(PackageProjectName).sln" Properties="Configuration=Release" />
 	</Target>
 
 	<!-- PREPAIRE FILES -->
 	<Target Name="PrepairFiles" DependsOnTargets="Compile">
 		<ItemGroup>
-			<BinFiles Include="$(RootDir)\bin\Release\Our.Umbraco.Shortcodes.dll" />
+			<BinFiles Include="$(RootDir)\bin\Release\$(PackageProjectName).dll" />
+			<BinFiles Include="$(RootDir)\bin\Release\Microsoft.Web.Infrastructure.dll" />
 			<PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
 		</ItemGroup>
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildDir)\bin" />
