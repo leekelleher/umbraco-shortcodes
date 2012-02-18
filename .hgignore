@@ -3,3 +3,4 @@ glob:*.suo
 glob:*/bin/*
 glob:*/obj/*
 glob:*.Cache
+glob:packages/*
