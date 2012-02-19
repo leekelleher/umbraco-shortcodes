@@ -4,7 +4,7 @@
 	<info>
 		<package>
 			<name>Shortcodes for Umbraco</name>
-			<version>1.1</version>
+			<version>1.2</version>
 			<license url="http://www.opensource.org/licenses/mit-license.php">MIT license</license>
 			<url>http://our.umbraco.org/projects/developer-tools/shortcodes</url>
 			<requirements>

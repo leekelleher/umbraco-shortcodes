@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using umbraco.NodeFactory;
 using umbraco.presentation.umbracobase;
 
 namespace Our.Umbraco.Shortcodes.Tests

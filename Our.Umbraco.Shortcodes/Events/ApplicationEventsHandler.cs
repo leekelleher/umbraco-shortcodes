@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
-
-using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+﻿using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using umbraco.BusinessLogic;
-
-[assembly: PreApplicationStartMethod(typeof(Our.Umbraco.Shortcodes.Events.ApplicationEventsHandler), "RegisterModules")]
 
 namespace Our.Umbraco.Shortcodes.Events
 {
