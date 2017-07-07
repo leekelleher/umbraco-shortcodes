@@ -1,5 +1,7 @@
 # Shortcodes for Umbraco
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 Shortcodes for Umbraco provides a filter that will parse your content pages for shortcodes, replacing them with the appropriate value.
 
 This initial release uses shortcodes that support Macro parameter syntax and enabled RestExtension methods.
